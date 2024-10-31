@@ -43,9 +43,9 @@ jobs:
         run: |
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
-	  - name: Deploy to Prometheus and Grafana
+      - name: Deploy to Prometheus and Grafana
         run: |  
-	        helm repo add stable https://charts.helm.sh/stable || true
+	  helm repo add stable https://charts.helm.sh/stable || true
           helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
           # Check if namespace 'prometheus' exists
           if kubectl get namespace prometheus > /dev/null 2>&1; then
@@ -59,7 +59,7 @@ jobs:
           kubectl patch svc stable-kube-prometheus-sta-prometheus -n prometheus -p '{"spec": {"type": "LoadBalancer"}}'
           kubectl patch svc stable-grafana -n prometheus -p '{"spec": {"type": "LoadBalancer"}}'
 		  
-	  - name: Deploy to ARGOCD
+      - name: Deploy to ARGOCD
         run: |  
 		      kubectl create namespace argocd || true
           kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
